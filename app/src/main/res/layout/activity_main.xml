@@ -13,7 +13,7 @@
 
         app:tabIndicatorColor="@color/black"
         app:tabSelectedTextColor="@color/cardview_dark_background"
-        >
+        tools:ignore="MissingClass">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_Item1"
@@ -34,8 +34,26 @@
             android:text="Tab3" />
     </com.google.android.material.tabs.TabLayout>
 
+
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/Fragment2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:name="com.example.project1.Fragment2"
+        />
+
+    <fragment
+        android:id="@+id/ViewerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:name="com.example.project1.ViewerFragment"
+        />
 </LinearLayout>
