@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-///////
 public class VPAdapter extends FragmentPagerAdapter {
     private ArrayList<Fragment> items;
     private ArrayList<String> itext=new ArrayList<String>();
@@ -21,7 +20,7 @@ public class VPAdapter extends FragmentPagerAdapter {
 
         itext.add("프로필");
         itext.add("갤러리");
-        itext.add("기타");
+        itext.add("음악");
     }
     @Nullable
     @Override
@@ -37,3 +36,4 @@ public class VPAdapter extends FragmentPagerAdapter {
         return items.size();
     }
 }
+

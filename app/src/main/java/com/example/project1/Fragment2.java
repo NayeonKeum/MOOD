@@ -147,6 +147,14 @@ public class Fragment2 extends Fragment{
         Log.d("intent type: ", intent+"\n");
         startActivityForResult(intent, 1);
     }
+    public void bt2(View view) {    // 이미지 선택 누르면 실행됨 이미지 고를 갤러리 오픈
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Log.d("intent type: ", intent+"\n");
+        startActivityForResult(intent, 1);
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
