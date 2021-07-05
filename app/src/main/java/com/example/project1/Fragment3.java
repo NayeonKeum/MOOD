@@ -17,6 +17,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -30,7 +32,10 @@ import android.widget.Toast;
 
 import com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayerView;
+import com.pierfrancescosoffritti.androidyoutubeplayer.player.listeners.YouTubePlayerListener;
 
+
+//import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -158,7 +163,9 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
 
         String api = "http://api.openweathermap.org/data/2.5/weather?lat="+Double.toString(latitude)+"&lon="+Double.toString(longitude)+"&appid=b29145d4cc29b36a94df3052c568bfb3";
         try {
+            Log.d("try: ", "start");
             JSONObject json = readJsonFromUrl(api);
+            Log.d("weatherAPI: ", "start");
 
             JSONArray weather = (JSONArray) json.get("weather");
             Log.d("weather: ", weather+"\n");
@@ -182,9 +189,52 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     String youtubeAPI = "https://www.googleapis.com/youtube/v3/search?q="+description+" weather music&part=snippet&key="+youtubeAPIkey+"maxResults=1";
                     JSONObject json2 = readJsonFromUrl(youtubeAPI);
                     JSONObject json3 = json2.getJSONObject("id");
+                    Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
                     String videoId = json3.getString("videoId");
                     // Youtube video play
-                    YouTubePlayer.loadVideo(videoId, 0);
+                    YouTubePlayer youTubePlayer = new YouTubePlayer() {
+
+                        public void loadVideo(@NonNull String videoId, float startSeconds) {
+
+                        }
+
+
+                        public void cueVideo(@NonNull String videoId, float startSeconds) {
+
+                        }
+
+
+                        public void play() {
+
+                        }
+
+                        public void pause() {
+
+                        }
+
+
+                        public void setVolume(int volumePercent) {
+
+                        }
+
+
+                        public void seekTo(float time) {
+
+                        }
+
+                        @Override
+                        public boolean addListener(@NonNull YouTubePlayerListener listener) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean removeListener(@NonNull YouTubePlayerListener listener) {
+                            return false;
+                        }
+
+
+                    };
+                    youTubePlayer.cueVideo(videoId, 0);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -192,7 +242,7 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
             }
 
 
-            Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
+
             Log.d("Address", "process finished"+"\n");
 
 
@@ -214,6 +264,7 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
     public void onActivityCreated(Bundle savedInstanceState)
     {
 //        setContentView(R.layout.activity_main);
+
 
 
         super.onActivityCreated(savedInstanceState);
