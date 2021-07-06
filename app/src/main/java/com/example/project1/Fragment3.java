@@ -207,7 +207,7 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     Log.d("videoId8: ", json5+"\n");
                     JSONObject json6 = json5.getJSONObject("thumbnails");
                     Log.d("videoId9: ", json6+"\n");
-                    JSONObject json7 = json6.getJSONObject("default");
+                    JSONObject json7 = json6.getJSONObject("high");
                     Log.d("videoId10: ", json7+"\n");
                     String thumbnailUrl = json7.getString("url");
                     Log.d("videoId11: ", thumbnailUrl+"\n");
