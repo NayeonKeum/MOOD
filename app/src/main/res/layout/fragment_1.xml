@@ -5,13 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragment1">
+    tools:context=".Fragment1"
+    android:background="@color/purple_100">
 
     <!--Recycler view for displaying list of contacts-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idRVContacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller
+        android:id="@+id/fast_scroller"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        />
 
     progress bar for displaying loading
         <ProgressBar

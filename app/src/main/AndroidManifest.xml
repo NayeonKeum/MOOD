@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.project1">
     <uses-sdk
+        android:minSdkVersion="11"
         android:targetSdkVersion="30"
         tools:overrideLibrary="com.calendarevents"/>
 

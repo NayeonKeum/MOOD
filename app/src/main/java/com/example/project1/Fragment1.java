@@ -1,12 +1,9 @@
 package com.example.project1;
 
-import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,28 +16,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
 import java.util.ArrayList;
-import java.util.List;
+
+import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
 
 public class Fragment1 extends Fragment {
     //creating variables for our array list, recycler view progress bar and adapter.
-    private ArrayList<PhoneBook> contactsModalArrayList;
+    private ArrayList<PhoneBook> contactsModalArrayList = new ArrayList<>();
     private RecyclerView contactRV;
     private ContactRVAdapter contactRVAdapter;
     private ProgressBar loadingPB;
@@ -49,8 +39,6 @@ public class Fragment1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //on below line we are initializing our variables.
-        contactsModalArrayList = new ArrayList<>();
     }
 
     @Nullable
@@ -60,6 +48,15 @@ public class Fragment1 extends Fragment {
         contactRV = view.findViewById(R.id.idRVContacts);
         //on below line we are setting layout mnager.
         contactRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        contactRV.addItemDecoration(new DividerItemDecoration(view.getContext(), 1));
+
+
+
+        VerticalRecyclerViewFastScroller fastScroller = (VerticalRecyclerViewFastScroller) view.findViewById(R.id.fast_scroller);
+        fastScroller.setRecyclerView(contactRV);
+
+        contactRV.setOnScrollListener(fastScroller.getOnScrollListener());
+
         loadingPB = view.findViewById(R.id.idPBLoading);
 
         //calling a method to request permissions.
@@ -83,6 +80,11 @@ public class Fragment1 extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        contactsModalArrayList = new ArrayList<>();
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -137,97 +139,6 @@ public class Fragment1 extends Fragment {
         }
     }
 
-    private void requestPermissions() {
-        // below line is use to request
-        // permission in the current activity.
-        Dexter.withContext(getContext())
-                // below line is use to request the number of
-                // permissions which are required in our app.
-                .withPermissions(Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.CALL_PHONE,
-                        Manifest.permission.SEND_SMS, Manifest.permission.WRITE_CONTACTS)
-                // after adding permissions we are
-                // calling an with listener method.
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        // this method is called when all permissions are granted
-                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
-                            Log.d("Permission ","넹");
-                            // do you work now
-                            getContacts();
-                            Toast.makeText(getActivity(), "All the permissions are granted..", Toast.LENGTH_SHORT).show();
-                        }
-                        // check for permanent denial of any permission
-//                        if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
-//                            // permission is denied permanently,
-//                            // we will show user a dialog message.
-//                            showSettingsDialog();
-//                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-                        // this method is called when user grants some
-                        // permission and denies some of them.
-                        permissionToken.continuePermissionRequest();
-                    }
-                }).withErrorListener(new PermissionRequestErrorListener() {
-            // this method is use to handle error
-            // in runtime permissions
-            @Override
-            public void onError(DexterError error) {
-                // we are displaying a toast message for error message.
-                Toast.makeText(getActivity().getApplicationContext(), "Error occurred! ", Toast.LENGTH_SHORT).show();
-            }
-        })
-                // below line is use to run the permissions
-                // on same thread and to check the permissions
-                .onSameThread().check();
-    }
-
-    // below is the shoe setting dialog
-    // method which is use to display a
-    // dialogue message.
-//    private void showSettingsDialog() {
-//        // we are displaying an alert dialog for permissions
-//        // we are displaying an alert dialog for permissions
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//        // below line is the title
-//        // for our alert dialog.
-//        builder.setTitle("Need Permissions");
-//
-//        // below line is our message for our dialog
-//        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
-//        builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // this method is called on click on positive
-//                // button and on clicking shit button we
-//                // are redirecting our user from our app to the
-//                // settings page of our app.
-//                dialog.cancel();
-//                // below is the intent from which we
-//                // are redirecting our user.
-//                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//                Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-//                intent.setData(uri);
-//                startActivityForResult(intent, 101);
-//            }
-//        });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // this method is called when
-//                // user click on negative button.
-//                dialog.cancel();
-//            }
-//        });
-//        // below line is used
-//        // to display our dialog
-//        builder.show();
-//    }
 
     private void getContacts() {
         //this method is use to read contact from users device.

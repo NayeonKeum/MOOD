@@ -1,12 +1,5 @@
 package com.example.project1;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -22,12 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -36,10 +34,12 @@ public class Fragment2 extends Fragment{
     private static final String TAG = "Fragment2";
 
     ImageView imageView;
+    TextView textView;
     String imgName = "osz.png";    // 이미지 이름
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private RecyclerAdapter adapter;
+
 
 
     // TODO: Rename and change types of parameters
@@ -63,6 +63,7 @@ public class Fragment2 extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
 
@@ -80,7 +81,7 @@ public class Fragment2 extends Fragment{
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), numberOfColumns));
         recyclerView.addItemDecoration(new RecyclerViewDecoration(1));
 
-        adapter = new RecyclerAdapter();
+        adapter = new RecyclerAdapter(getContext(), getActivity());
         recyclerView.setAdapter(adapter);
     }
 
@@ -113,26 +114,26 @@ public class Fragment2 extends Fragment{
                 startActivityForResult(intent, 1);
             }
         });
-
-        Button bt2 = getView().findViewById(R.id.button2);
-        bt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO : click event
-                try {
-                    File file = getActivity().getCacheDir();  // 내부저장소 캐시 경로를 받아오기
-                    File[] flist = file.listFiles();
-                    for (int i = 0; i < flist.length; i++) {    // 배열의 크기만큼 반복
-                        if (flist[i].getName().equals(imgName)) {   // 삭제하고자 하는 이름과 같은 파일명이 있으면 실행
-                            flist[i].delete();  // 파일 삭제
-                            Toast.makeText(getActivity().getApplicationContext(), "파일 삭제 성공", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(getActivity().getApplicationContext(), "파일 삭제 실패", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//
+//        Button bt2 = getView().findViewById(R.id.button2);
+//        bt2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // TODO : click event
+//                try {
+//                    File file = getActivity().getCacheDir();  // 내부저장소 캐시 경로를 받아오기
+//                    File[] flist = file.listFiles();
+//                    for (int i = 0; i < flist.length; i++) {    // 배열의 크기만큼 반복
+//                        if (flist[i].getName().equals(imgName)) {   // 삭제하고자 하는 이름과 같은 파일명이 있으면 실행
+//                            flist[i].delete();  // 파일 삭제
+//                            Toast.makeText(getActivity().getApplicationContext(), "파일 삭제 성공", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    Toast.makeText(getActivity().getApplicationContext(), "파일 삭제 실패", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
         Log.v(TAG, "gallery process finished...");
     }
@@ -140,14 +141,6 @@ public class Fragment2 extends Fragment{
 
 
     public void bt1(View view) {    // 이미지 선택 누르면 실행됨 이미지 고를 갤러리 오픈
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        Log.d("intent type: ", intent+"\n");
-        startActivityForResult(intent, 1);
-    }
-    public void bt2(View view) {    // 이미지 선택 누르면 실행됨 이미지 고를 갤러리 오픈
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -179,6 +172,10 @@ public class Fragment2 extends Fragment{
 //                    imageView.setImageBitmap(imgBitmap);    // 선택한 이미지 이미지뷰에 셋
                         instream.close();   // 스트림 닫아주기
                         saveBitmapToJpeg(imgBitmap);    // 내부 저장소에 저장
+
+//                        adapter.addName(resolver.query(fileUri, null, null, null, null).getColumnIndex(OpenableColumns.DISPLAY_NAME));
+//                        Log.d("이름 : ", String.valueOf(resolver.query(fileUri, null, null, null, null).getColumnIndex(OpenableColumns.DISPLAY_NAME)));
+//
                     }
                     Toast.makeText(getActivity().getApplicationContext(), "파일 불러오기 성공", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {

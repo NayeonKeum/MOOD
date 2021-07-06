@@ -61,4 +61,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:1.1.1'
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    compile 'xyz.danoz:recyclerviewfastscroller:0.1.3'
 }
