@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -55,6 +56,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class Fragment3 extends Fragment implements View.OnClickListener{
     Button ShowLocationButton;
+    Button url_button;
 
     private GpsTracker gpsTracker;
 
@@ -79,6 +81,9 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
 //        getLifecycle().addObserver(youTubePlayerView);
 
         ShowLocationButton = view.findViewById(R.id.button3);
+
+        url_button=view.findViewById(R.id.url_btn);
+
 
         Log.d("Fragment3", "success"+"\n");
 
@@ -177,6 +182,7 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                 try {
                     jsonObj.getString("description");
                     description = "현재 날씨: " + jsonObj.getString("description");
+                    String icon = jsonObj.getString("icon");
                     Log.d("JSON Object: ", jsonObj + "\n");
 
                     String address = "현재 위치: " + getCurrentAddress(latitude, longitude);
@@ -217,6 +223,15 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     String title = "Title: " + json5.getString("title");
                     String videoDescription = json5.getString("description");
                     String videoURL = "http://www.youtube.com/watch?v="+videoId;
+
+                    url_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
+                            startActivity(intent);
+                        }
+                    });
+
                     videoDescription = "\n" + "Description: " + videoDescription + "\n" +"Link: " + videoURL;
 
                     Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
@@ -228,6 +243,9 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     TextView video_description = getActivity().findViewById(R.id.video_description);
                     video_description.setText(videoDescription);
                     Log.d("videoId: ", "videoId process\n");
+
+                    String icon_url = "http://openweathermap.org/img/w/" + icon +".png";
+                    Glide.with(this).load(icon_url).into((ImageView) getActivity().findViewById(R.id.weather_icon));
 
 //                    ImageView thumbnail_image = getActivity().findViewById(R.id.thumbnail);
 //                    thumbnail_image.set(videoId);
