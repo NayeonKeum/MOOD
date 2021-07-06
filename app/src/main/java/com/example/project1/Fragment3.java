@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -26,10 +27,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayerView;
 import com.pierfrancescosoffritti.androidyoutubeplayer.player.listeners.YouTubePlayerListener;
@@ -76,8 +79,8 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_3, container, false);
-        youTubePlayerView = view.findViewById(R.id.playerView);
-        getLifecycle().addObserver(youTubePlayerView);
+//        youTubePlayerView = view.findViewById(R.id.playerView);
+//        getLifecycle().addObserver(youTubePlayerView);
 
         ShowLocationButton = view.findViewById(R.id.button3);
 
@@ -148,6 +151,8 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
 
     }
 
+
+
     @Override
     public void onClick(View arg0)
     {
@@ -190,19 +195,47 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     String youtubeAPI = "https://www.googleapis.com/youtube/v3/search?q="+description+" weather music&part=snippet&key="+youtubeAPIkey+"&maxResults=1";
                     JSONObject json2 = readJsonFromUrl(youtubeAPI);
                     Log.d("videoId3: ", "process\n");
+
                     JSONArray jArray = json2.getJSONArray("items");
                     Log.d("videoId4: ", jArray+"\n");
                     JSONObject json3 = jArray.getJSONObject(0);
                     Log.d("videoId5: ", json3+"\n");
+
+
                     JSONObject json4 = json3.getJSONObject("id");
                     Log.d("videoId6: ", json3+"\n");
                     String videoId = json4.getString("videoId");
-                    Log.d("videoId6: ", videoId+"\n");
+                    Log.d("videoId7: ", videoId+"\n");
+
+                    JSONObject json5 = json3.getJSONObject("snippet");
+                    Log.d("videoId8: ", json5+"\n");
+                    JSONObject json6 = json5.getJSONObject("thumbnails");
+                    Log.d("videoId9: ", json6+"\n");
+                    JSONObject json7 = json6.getJSONObject("default");
+                    Log.d("videoId10: ", json7+"\n");
+                    String thumbnailUrl = json7.getString("url");
+                    Log.d("videoId11: ", thumbnailUrl+"\n");
+
+                    Glide.with(this).load(thumbnailUrl).into((ImageView) getActivity().findViewById(R.id.thumbnail));
+
+                    String title = json5.getString("title");
+                    String videoDescription = json5.getString("description");
+                    String videoURL = "http://www.youtube.com/watch?v="+videoId;
+                    videoDescription = "\n" + "Link: " + videoDescription + "\n" + videoURL;
 
                     Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
-                    TextView video_text = getActivity().findViewById(R.id.musictext);
-                    video_text.setText(videoId);
-                    Log.d("videoId: ", "process\n");
+
+                    TextView video_title = getActivity().findViewById(R.id.video_title);
+                    video_title.setText(title);
+                    Log.d("videoId: ", "videoId process\n");
+
+                    TextView video_description = getActivity().findViewById(R.id.video_description);
+                    video_description.setText(videoDescription);
+                    Log.d("videoId: ", "videoId process\n");
+
+//                    ImageView thumbnail_image = getActivity().findViewById(R.id.thumbnail);
+//                    thumbnail_image.set(videoId);
+//                    Log.d("videoId: ", "thumbnail process\n");
                     // Youtube video play
 //                    YouTubePlayer youTubePlayer = new YouTubePlayer();
 //                    YouTubePlayer.cueVideo(videoId, 0);
