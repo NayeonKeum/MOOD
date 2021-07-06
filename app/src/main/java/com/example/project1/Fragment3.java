@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -55,6 +56,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class Fragment3 extends Fragment implements View.OnClickListener{
     Button ShowLocationButton;
+    Button url_button;
 
     private GpsTracker gpsTracker;
 
@@ -79,7 +81,14 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
 //        getLifecycle().addObserver(youTubePlayerView);
 
         ShowLocationButton = view.findViewById(R.id.button3);
-
+        url_button=view.findViewById(R.id.url_btn);
+//        url_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
+//                startActivity(intent);
+//            }
+//        });
         Log.d("Fragment3", "success"+"\n");
 
 
@@ -218,6 +227,16 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     String videoDescription = json5.getString("description");
                     String videoURL = "http://www.youtube.com/watch?v="+videoId;
                     videoDescription = "\n" + "Description: " + videoDescription + "\n" +"Link: " + videoURL;
+
+
+                    url_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
+                            startActivity(intent);
+                        }
+                    });
+
 
                     Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
 
