@@ -33,9 +33,6 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
-import com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayer;
-import com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayerView;
-import com.pierfrancescosoffritti.androidyoutubeplayer.player.listeners.YouTubePlayerListener;
 
 
 //import org.jetbrains.annotations.NotNull;
@@ -58,7 +55,6 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class Fragment3 extends Fragment implements View.OnClickListener{
     Button ShowLocationButton;
-    private YouTubePlayerView youTubePlayerView;
 
     private GpsTracker gpsTracker;
 
@@ -180,10 +176,10 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                 JSONObject jsonObj = (JSONObject)weather.get(i);
                 try {
                     jsonObj.getString("description");
-                    description = jsonObj.getString("description");
+                    description = "현재 날씨: " + jsonObj.getString("description");
                     Log.d("JSON Object: ", jsonObj + "\n");
 
-                    String address = getCurrentAddress(latitude, longitude);
+                    String address = "현재 위치: " + getCurrentAddress(latitude, longitude);
                     TextView gpstext_address = getActivity().findViewById(R.id.gpstext);
                     TextView weather_current = getActivity().findViewById(R.id.weathertext);
                     gpstext_address.setText(address);
@@ -218,10 +214,10 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
 
                     Glide.with(this).load(thumbnailUrl).into((ImageView) getActivity().findViewById(R.id.thumbnail));
 
-                    String title = json5.getString("title");
+                    String title = "Title: " + json5.getString("title");
                     String videoDescription = json5.getString("description");
                     String videoURL = "http://www.youtube.com/watch?v="+videoId;
-                    videoDescription = "\n" + "Link: " + videoDescription + "\n" + videoURL;
+                    videoDescription = "\n" + "Description: " + videoDescription + "\n" +"Link: " + videoURL;
 
                     Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
 

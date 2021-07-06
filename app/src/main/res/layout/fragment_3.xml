@@ -106,7 +106,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="#ffffff"
-            android:text="음악 재생"
+            android:text="음악 추천"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
