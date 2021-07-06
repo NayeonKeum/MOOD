@@ -185,56 +185,27 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     weather_current.setText(description);
 
                     String youtubeAPIkey = "AIzaSyACoaOud7qz-X_H2TYGINAm4q_WDLxGvrk";
+                    Log.d("videoId2: ", "process\n");
 
-                    String youtubeAPI = "https://www.googleapis.com/youtube/v3/search?q="+description+" weather music&part=snippet&key="+youtubeAPIkey+"maxResults=1";
+                    String youtubeAPI = "https://www.googleapis.com/youtube/v3/search?q="+description+" weather music&part=snippet&key="+youtubeAPIkey+"&maxResults=1";
                     JSONObject json2 = readJsonFromUrl(youtubeAPI);
-                    JSONObject json3 = json2.getJSONObject("id");
+                    Log.d("videoId3: ", "process\n");
+                    JSONArray jArray = json2.getJSONArray("items");
+                    Log.d("videoId4: ", jArray+"\n");
+                    JSONObject json3 = jArray.getJSONObject(0);
+                    Log.d("videoId5: ", json3+"\n");
+                    JSONObject json4 = json3.getJSONObject("id");
+                    Log.d("videoId6: ", json3+"\n");
+                    String videoId = json4.getString("videoId");
+                    Log.d("videoId6: ", videoId+"\n");
+
                     Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
-                    String videoId = json3.getString("videoId");
+                    TextView video_text = getActivity().findViewById(R.id.musictext);
+                    video_text.setText(videoId);
+                    Log.d("videoId: ", "process\n");
                     // Youtube video play
-                    YouTubePlayer youTubePlayer = new YouTubePlayer() {
-
-                        public void loadVideo(@NonNull String videoId, float startSeconds) {
-
-                        }
-
-
-                        public void cueVideo(@NonNull String videoId, float startSeconds) {
-
-                        }
-
-
-                        public void play() {
-
-                        }
-
-                        public void pause() {
-
-                        }
-
-
-                        public void setVolume(int volumePercent) {
-
-                        }
-
-
-                        public void seekTo(float time) {
-
-                        }
-
-                        @Override
-                        public boolean addListener(@NonNull YouTubePlayerListener listener) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean removeListener(@NonNull YouTubePlayerListener listener) {
-                            return false;
-                        }
-
-
-                    };
-                    youTubePlayer.cueVideo(videoId, 0);
+//                    YouTubePlayer youTubePlayer = new YouTubePlayer();
+//                    YouTubePlayer.cueVideo(videoId, 0);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
