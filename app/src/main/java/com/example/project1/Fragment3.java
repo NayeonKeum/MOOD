@@ -81,14 +81,10 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
 //        getLifecycle().addObserver(youTubePlayerView);
 
         ShowLocationButton = view.findViewById(R.id.button3);
+
         url_button=view.findViewById(R.id.url_btn);
-//        url_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
-//                startActivity(intent);
-//            }
-//        });
+
+
         Log.d("Fragment3", "success"+"\n");
 
 
@@ -186,6 +182,7 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                 try {
                     jsonObj.getString("description");
                     description = "현재 날씨: " + jsonObj.getString("description");
+                    String icon = jsonObj.getString("icon");
                     Log.d("JSON Object: ", jsonObj + "\n");
 
                     String address = "현재 위치: " + getCurrentAddress(latitude, longitude);
@@ -216,7 +213,7 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     Log.d("videoId8: ", json5+"\n");
                     JSONObject json6 = json5.getJSONObject("thumbnails");
                     Log.d("videoId9: ", json6+"\n");
-                    JSONObject json7 = json6.getJSONObject("default");
+                    JSONObject json7 = json6.getJSONObject("high");
                     Log.d("videoId10: ", json7+"\n");
                     String thumbnailUrl = json7.getString("url");
                     Log.d("videoId11: ", thumbnailUrl+"\n");
@@ -226,8 +223,6 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     String title = "Title: " + json5.getString("title");
                     String videoDescription = json5.getString("description");
                     String videoURL = "http://www.youtube.com/watch?v="+videoId;
-                    videoDescription = "\n" + "Description: " + videoDescription + "\n" +"Link: " + videoURL;
-
 
                     url_button.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -237,6 +232,7 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                         }
                     });
 
+                    videoDescription = "\n" + "Description: " + videoDescription + "\n" +"Link: " + videoURL;
 
                     Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
 
@@ -247,6 +243,9 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     TextView video_description = getActivity().findViewById(R.id.video_description);
                     video_description.setText(videoDescription);
                     Log.d("videoId: ", "videoId process\n");
+
+                    String icon_url = "http://openweathermap.org/img/w/" + icon +".png";
+                    Glide.with(this).load(icon_url).into((ImageView) getActivity().findViewById(R.id.weather_icon));
 
 //                    ImageView thumbnail_image = getActivity().findViewById(R.id.thumbnail);
 //                    thumbnail_image.set(videoId);
