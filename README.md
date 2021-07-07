@@ -1,7 +1,7 @@
 # MOOD
 **KAIST MADCAMP CS496 Project1**
 
-**+) apk 파일 위치 : app/releases/app-release.apk**
+**+) apk 파일 위치 : app/release/app-release.apk**
 
 
 
