@@ -45,7 +45,8 @@
 ### 시작 화면
 <img src="https://user-images.githubusercontent.com/68985625/124556474-47ac1f80-de73-11eb-8aae-cb06a952454c.jpg"/>
 - splash로 로고를 띄운다.
-- 
+
+
 - 만약 권한 허용이 되어있지 않다면 권한 허용창이 대신 뜨고, 허용 이후 앱을 재실행하면 모든 권한이 허용됨이라는 Toast와 함께 앱이 실행된다.
 
 ### 
