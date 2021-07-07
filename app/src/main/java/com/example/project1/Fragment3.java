@@ -221,6 +221,9 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     Glide.with(this).load(thumbnailUrl).into((ImageView) getActivity().findViewById(R.id.thumbnail));
 
                     String title = "Title: " + json5.getString("title");
+                    for(int j=0; i<title.length(); i++){
+                        Log.d("title: ", Character.toString(title.charAt(j))+"\n");
+                    }
                     String videoDescription = json5.getString("description");
                     String videoURL = "http://www.youtube.com/watch?v="+videoId;
 
@@ -240,8 +243,8 @@ public class Fragment3 extends Fragment implements View.OnClickListener{
                     video_title.setText(title);
                     Log.d("videoId: ", "videoId process\n");
 
-                    TextView video_description = getActivity().findViewById(R.id.video_description);
-                    video_description.setText(videoDescription);
+//                    TextView video_description = getActivity().findViewById(R.id.video_description);
+//                    video_description.setText(videoDescription);
                     Log.d("videoId: ", "videoId process\n");
 
                     String icon_url = "http://openweathermap.org/img/w/" + icon +".png";
